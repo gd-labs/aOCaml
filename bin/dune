@@ -1,0 +1,4 @@
+(executable
+ (public_name aOCaml)
+ (name main)
+ (libraries aOCaml base stdio))
