@@ -1,2 +1,3 @@
 (library
- (name aOCaml))
+ (name advent)
+ (libraries core))

@@ -1,4 +1,6 @@
 (executable
- (public_name aOCaml)
- (name main)
- (libraries aOCaml base stdio))
+ (public_name day1)
+ (name day1)
+ (libraries advent fmt re)
+ (preprocess
+  (pps ppx_deriving.show ppx_deriving.ord ppx_deriving.eq ppx_sexp_conv)))
