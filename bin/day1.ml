@@ -1,11 +1,51 @@
 open Core
+open List
+
+let part_one lines =
+  fold lines ~init:0 ~f:(fun acc line ->
+    let nums = 
+      line
+      |> String.to_list
+      |> filter_map ~f:(fun ch ->
+        match Char.is_digit ch with true -> Char.get_digit ch | _ -> None)
+    in
+    acc + (hd_exn nums) * 10 + (last_exn nums))
+;;
+
+let cases =
+[ "one", 1
+; "two", 2
+; "three", 3
+; "four", 4
+; "five", 5
+; "six", 6
+; "seven", 7
+; "eight", 8
+; "nine", 9 ]
+
+let part_two lines =
+  fold lines ~init:0 ~f:(fun acc line ->
+    let nums =
+      line
+      |> String.foldi ~init:[] ~f:(fun pos acc ch ->
+        let num =
+          match ch with
+          | ch when Char.is_digit ch -> Char.get_digit ch
+          | _ -> (
+            find_map cases ~f:(fun (substr, value) ->
+              match String.substr_index ~pos:pos line ~pattern:substr with
+              | Some matched when matched = pos -> Some value
+              | _ -> None)
+          )
+        in
+        acc @ [num])
+      |> filter_opt
+    in
+    acc + (hd_exn nums) * 10 + (last_exn nums))
+;;
 
 let () =
   let lines = Advent.read_lines "./inputs/day1.in" in
-  List.fold lines ~init:0 ~f:(fun acc line ->
-    let chars = String.to_array line in
-    let numbers = Array.filter chars ~f:(Char.is_digit) in
-    let number = 
-      (Char.get_digit_exn numbers.(0)) * 10 + Char.get_digit_exn (Array.last numbers) in
-    acc + number)
-  |> Fmt.pr "Result: %d@."
+  Fmt.pr "Part 1: %d@." (part_one lines);
+  Fmt.pr "Part 2: %d@." (part_two lines)
+;;
