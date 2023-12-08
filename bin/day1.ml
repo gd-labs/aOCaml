@@ -31,11 +31,11 @@ let part_two lines =
       line
       |> String.foldi ~init:[] ~f:(fun pos acc ch ->
         let num =
-          if Char.is_digit ch then Char.get_digit
+          if Char.is_digit ch then Char.get_digit ch
           else
-            find_map cases ~f:(fun (substr, value) ->
-              match String.substr_index ~pos line ~pattern:substr with
-              | Some matched when matched = pos -> Some value
+            find_map cases ~f:(fun (substr, digit) ->
+              match String.substr_index ~pos:pos line ~pattern:substr with
+              | Some matched when matched = pos -> Some digit
               | _ -> None)
         in
         acc @ [ num ])
