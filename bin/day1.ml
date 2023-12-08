@@ -7,7 +7,7 @@ let part_one lines =
       line
       |> String.to_list
       |> filter_map ~f:(fun ch ->
-        match Char.is_digit ch with true -> Char.get_digit ch | _ -> None)
+        if Char.is_digit ch then (Char.get_digit ch) else None)
     in
     acc + (hd_exn nums) * 10 + (last_exn nums))
 ;;
